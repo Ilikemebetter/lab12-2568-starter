@@ -4,6 +4,7 @@ import HeaderComponent from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import FooterComponent from "../components/Footer";
 import { useDisclosure } from "@mantine/hooks";
+import "@mantine/core/styles.css"
 export default function MainLayout() {
   const [opened, { toggle }] = useDisclosure();
   //opened: เป็น boolean (true/false)
@@ -20,14 +21,18 @@ export default function MainLayout() {
       </AppShell.Header>
 
       <AppShell.Navbar>
-        <Sidebar />
+        <Sidebar 
+        userName="Pleum"
+        type="admin"
+
+         />
       </AppShell.Navbar>
 
       <AppShell.Footer>
         <FooterComponent
           year="2025"
-          fullName="chanadda"
-          studentId="670612039"
+          fullName="Radissara"
+          studentId="670612198"
         />
       </AppShell.Footer>
 

@@ -8,6 +8,7 @@ import {
   Card,
   Group,
   Checkbox,
+  useMantineColorScheme,
   ActionIcon,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
@@ -23,6 +24,7 @@ interface Task {
 }
 
 export default function HomePage() {
+  const { colorScheme } = useMantineColorScheme();
   const [tasks, setTasks] = useState<Task[]>([
     {
       id: "1",
@@ -76,7 +78,9 @@ export default function HomePage() {
   // Toggle done
   const toggleDoneTask = (taskId: string) => {
     setTasks((prev) =>
-      prev.map((t) => (t.id === taskId ? { ...t, isDone: !t.isDone } : t))
+      prev.map((t) => (t.id === taskId ? { ...t, isDone: !t.isDone, 
+        dueDate: !t.isDone ? new Date() : t.dueDate,
+       } : t))
     );
   };
 
@@ -95,6 +99,7 @@ export default function HomePage() {
             <Card withBorder shadow="sm" radius="md" mb="sm" key={task.id}>
               <Group justify="space-between" align="flex-start">
                 <Stack>
+
                   <Text
                     fw={600}
                     td={task.isDone ? "line-through" : "none"}
@@ -103,6 +108,7 @@ export default function HomePage() {
                     {task.title}
                   </Text>
 
+                  
                   <Text size="sm" c="dimmed">
                     {task.description}
                   </Text>
@@ -112,31 +118,36 @@ export default function HomePage() {
                     </Text>
                   )}
                   {/* แสดง Date & Time */}
-                  <Text size="xs" c="gray">
-                    Done at:
+                  {task.isDone && task.dueDate && (
+                  <Text size="xs" c={colorScheme === "dark" ? "yellow" : "purple"}  >
+                    Done at: {task.dueDate.toLocaleString()}
                   </Text>
+                )}
                 </Stack>
                 {/* แสดง Button Done & Button Delete */}
                 <Group>
-                  <Button
-                    style={{
-                      backgroundColor: "#71c32fda",
-                      color: "#dce6e7ff",
-                    }}
+                  <Checkbox
+
+                    //style={{
+                    //  backgroundColor: "#71c32fda",
+                    //  color: "#dce6e7ff",
+                    //}}
                     variant="light"
                     size="xs"
-                    onClick={() => toggleDoneTask(task.id)}
+                    checked={task.isDone}
+                    onChange={() => toggleDoneTask(task.id)}
+                    label="Done"
                   >
-                    Done
-                  </Button>
-                  <Button
-                    color="chanadda"
+
+                  </Checkbox>
+                  <ActionIcon
+                    color="Red"
                     variant="light"
                     size="xs"
                     onClick={() => deleteTask(task.id)}
                   >
-                    Delete
-                  </Button>
+                     <IconTrash size={22} />
+                  </ActionIcon>
                 </Group>
               </Group>
             </Card>
